@@ -1,0 +1,26 @@
+# 构建产物
+build/
+dist/
+
+# 下载的核心与工具（由 scripts\Integrate-Core.ps1 / Integrate-Tun.ps1 / 构建脚本恢复）
+core/
+tools/
+licenses/
+
+# 二维码依赖库（由 scripts\Integrate-Qr.ps1 恢复）
+libs/
+
+# 签名密钥（敏感，绝不提交）
+signing/
+*.pfx
+*.p12
+*.jks
+*.keystore
+*.pem
+*.key
+
+# 安装器临时载荷
+installer/payload.zip
+
+# 临时检查文件
+assets/exe-icon-check.png

@@ -1,0 +1,19 @@
+# 构建产物
+.gradle/
+.kotlin/
+build/
+app/build/
+app/release/
+local.properties
+
+# 签名密钥（敏感，绝不提交）
+signing/
+
+# 下载的原生依赖（由 scripts\Integrate-Native.ps1 恢复）
+app/libs/
+licenses/
+app/src/main/assets/licenses/
+
+# IDE
+.idea/
+*.iml
