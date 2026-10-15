@@ -556,7 +556,7 @@ class MainActivity : Activity() {
             setOnCheckedChangeListener { _, checked -> store.preferences.edit().putBoolean("secureScreen", checked).apply(); if(checked) window.addFlags(WindowManager.LayoutParams.FLAG_SECURE) else window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE) }
         }; content.addView(protect)
         content.addView(text("关闭截图保护可能暴露节点信息。连接中请先断开再编辑。HTTP 出口不支持通用 UDP。无自动重连；网络变化后可手动重连。", 13f, muted))
-        content.addView(button("检查原生核心") { message("依赖状态", NativeBridge.availability()) })
+        content.addView(button("检查原生核心") { message("原生核心检查", NativeBridge.availability()) })
     }
     private fun about() {
         content.addView(text("云梯pro", 28f, ink, true))

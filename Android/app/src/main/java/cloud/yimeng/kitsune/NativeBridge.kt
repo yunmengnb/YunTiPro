@@ -1,5 +1,6 @@
 package cloud.yimeng.kitsune
 
+import android.os.Build
 import java.lang.reflect.Proxy
 
 /** Reflection permits a usable node editor build without distributing fake native stubs. */
@@ -43,7 +44,18 @@ class NativeBridge {
         core = null
     }
     companion object {
-        fun availability(): String = try { NativeBridge().check(); "核心检查通过，可尝试连接；远端连通性尚未验证" } catch (_: Throwable) { "原生核心未安装或 ABI / 接口不兼容，连接已禁用" }
+        fun availability(): String {
+            val abi = Build.SUPPORTED_ABIS.firstOrNull() ?: Build.CPU_ABI ?: "未知"
+            return try {
+                val lib = Class.forName("libv2ray.Libv2ray")
+                val version = (lib.getMethod("checkVersionX").invoke(null) as String).trim()
+                NativeBridge().check()
+                "原生核心检查通过\n\nXray：${version.ifEmpty { "已加载" }}\nhev-socks5-tunnel：已加载\n设备 ABI：$abi\n\n可以正常建立代理连接。节点是否可用会在连接后单独验证。"
+            } catch (error: Throwable) {
+                val cause = generateSequence(error) { it.cause }.last()
+                "原生核心检查失败\n\n设备 ABI：$abi\n原因：${cause.javaClass.simpleName}${cause.message?.let { "：$it" } ?: ""}\n\n当前 APK 中的核心可能缺失，或与设备 ABI / 接口不兼容。"
+            }
+        }
         fun available() = runCatching { NativeBridge().check() }.isSuccess
     }
 }
